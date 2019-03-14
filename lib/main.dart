@@ -1,10 +1,35 @@
 import 'package:flutter/material.dart';
+import './widgets/smile-button.dart';
+import './widgets/quote.dart';
 
 void main() {
   runApp(App());
 }
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
+  @override
+  _AppState createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  bool isQuoteShown = false;
+  getQuote() {
+    setState(() {
+      this.isQuoteShown = true;
+    });
+  }
+
+  Widget quoteBuilder() {
+    if (!this.isQuoteShown) {
+      return Container();
+    } else {
+      //TODO get new quote.
+      return Quote(
+          text:
+              'Everyone has inside them a piece of good news. The good news is you don’t know how great you can be! How much you can love! What you can accomplish! And what your potential is.');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -28,57 +53,11 @@ class App extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              decoration: BoxDecoration(
-                border: Border(
-                  left: BorderSide(width: 4.0, color: Color(0XFFAFCBFF)),
-                ),
-              ),
-              child: Text(
-                'Everyone has inside them a piece of good news. The good news is you don’t know how great you can be! How much you can love! What you can accomplish! And what your potential is. ',
-                style: TextStyle(
-                  color: Color(0XFF1C4C79),
-                  fontWeight: FontWeight.w300,
-                  fontSize: 24.0,
-                  letterSpacing: 0.9,
-                ),
-              ),
+            Expanded(
+              child: quoteBuilder(),
             ),
-            Container(
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Align(
-                      alignment: Alignment.topLeft,
-                        child: Card(
-                        margin: EdgeInsets.only(left: 16.0),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(16.0))
-                          ),
-                        elevation: 0.0,
-                        color: Color(0XFFF0F8FF),
-                        child: Container(
-                          alignment: Alignment.centerLeft,
-                          padding: EdgeInsets.only(left: 12.0),
-                          width: 200.0,
-                          height: 76.0,
-                          child: Text(
-                            'Need Inspiration?',
-                            style: TextStyle(
-                              color: Color(0XFF1C4C79),
-                              fontSize: 24.0,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(margin: EdgeInsets.only(top:24.0),),
-                    FloatingActionButton(
-                      child: Image.asset('assets/images/smile.png'),
-                      onPressed: () {},
-                    ),
-                  ]),
+            SmileButton(
+              onButtonPressed: this.getQuote,
             ),
           ],
         ),
