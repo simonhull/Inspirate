@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
+
+import 'package:flutter/material.dart';
 
 class SmileButton extends StatefulWidget {
   final Function onButtonPressed;
@@ -66,24 +67,23 @@ class _SmileButtonState extends State<SmileButton>
           position: _speechBubblePosistion,
           child: FadeTransition(
             opacity: _speechBubbleOpacity,
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Card(
-                margin: EdgeInsets.only(left: 16.0),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(16.0))),
-                elevation: 0.0,
-                color: Color(0XFFF0F8FF),
-                child: Container(
-                  alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.only(left: 12.0),
-                  width: 200.0,
-                  height: 76.0,
-                  child: Text(
-                    'Need Inspiration?',
-                    style: TextStyle(
-                      color: Color(0XFF1C4C79),
-                      fontSize: 24.0,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 32.0),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: CustomPaint(
+                  painter: SpeechBubblePainter(),
+                  child: Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.only(left: 12.0),
+                    width: 200.0,
+                    height: 76.0,
+                    child: Text(
+                      'Need Inspiration?',
+                      style: TextStyle(
+                        color: Color(0XFF1C4C79),
+                        fontSize: 24.0,
+                      ),
                     ),
                   ),
                 ),
@@ -104,5 +104,28 @@ class _SmileButtonState extends State<SmileButton>
         ),
       ]),
     );
+  }
+}
+
+class SpeechBubblePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    Path path = Path();
+    Paint paint = Paint()..color = Color(0xFFF0F8FF);
+
+    path.addRRect(RRect.fromLTRBR(
+        0, 0, size.width, size.height * 0.8, Radius.circular(16)));
+    path.close();
+    path.moveTo(size.width * 0.95, size.height * 0.8);
+    path.lineTo(size.width * 0.85, size.height);
+    path.lineTo(size.width * 0.85, size.height * 0.8);
+    path.close();
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return oldDelegate != this;
   }
 }
